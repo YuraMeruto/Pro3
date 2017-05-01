@@ -6,8 +6,10 @@ public class BoardMaster : MonoBehaviour
 {
 
     private GameObject[,] MassObj = new GameObject[10, 10];
+    private GameObject[,] CharObj = new GameObject[10, 10];
     public int[,] MassNum = new int[10, 10];
-
+    public enum Status {None,OK,NG };
+    public Status[,] MassStatus = new Status[10, 10];
     [SerializeField]
     private int MaxLength;
     [SerializeField]
@@ -42,11 +44,12 @@ public class BoardMaster : MonoBehaviour
                 Mass.name = count.ToString();
                 Mass.GetComponent<NumberMass>().SetNumber(count);
                 MassNum[length, side] = count;
-                if (length == 2)
+                if (length == 2)//ポーンの初期の生成場所
                 {
                     Vector3 CharacterInstancePos = InstancePos;
                     CharacterInstancePos.y = 1;
-                    Instantiate(ObjCharcter[0], CharacterInstancePos, Quaternion.identity);
+                    GameObject Charcter = Instantiate(ObjCharcter[0], CharacterInstancePos, Quaternion.identity) as GameObject;
+                    CharObj[side, length] = Charcter; 
                 }
                 count++;
                 if (masscolor == 0)
@@ -75,5 +78,46 @@ public class BoardMaster : MonoBehaviour
         return MaxNumber;
     }
 
-    
+    /// <summary>
+    /// マスオブジェクトからナンバーからステータスを変更させる
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="stat"></param>
+    public void MassNumber(int num, Status stat)
+    {
+        for (int side = 0; side <= MaxSide; side++)
+        {
+            for (int length = 0; length <= MaxLength; length++)
+            {
+                if (MassNum[side, length] == num)
+                {
+                    MassStatus[side, length] = stat;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// マスのステータスの変更
+    /// </summary>
+    /// <param name="num"></param>
+    /// <returns></returns>
+    public bool GetMassStatus(int num)
+    {
+        bool ret = false;
+        for (int side = 0; side <= MaxSide; side++)
+        {
+            for (int length = 0; length <= MaxLength; length++)
+            {
+                if (MassNum[side, length] == num)
+                {
+                    if(MassStatus[side,length] != Status.NG)
+                    {
+                        ret = true;
+                    }
+                }
+            }
+        }
+        return ret;
+    }
 }

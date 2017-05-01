@@ -4,13 +4,27 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    [SerializeField]
+    LayerMask MassLayer;
+    private GameObject AtachMassObjct;
+    private GameObject AtachCharObjct;
+    private int AtachMassNumber;
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity,MassLayer))
+            {
+                AtachMassObjct = hit.collider.gameObject;
+                AtachMassNumber = AtachMassObjct.GetComponent<NumberMass>().GetNumber();
+            }
+        }
 	}
 }

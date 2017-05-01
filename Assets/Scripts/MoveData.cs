@@ -12,8 +12,11 @@ public class MoveData : MonoBehaviour
     private int MyPositionX;    //読み込んだデータの自分のポジション
     private int MyPositionZ;    //読み込んだデータの自分のポジション
                                 //CSVの自分のポジションとの差分を計算
-    private int DifferenceX;
-    private int DifferenceZ;
+    private int DifferenceX;    //CSVにあるデータの中心のポジションとゲームのマップのポジションの差分
+    private int DifferenceZ;    //CSVにあるデータの中心のポジションとゲームのマップのポジションの差分
+    private int DifferenceXCopy;    //CSVにあるデータの中心のポジションとゲームのマップのポジションの差分
+    private int DifferenceZCopy;    //CSVにあるデータの中心のポジションとゲームのマップのポジションの差分
+    private int MassNumber;
     // Use this for initialization
     void Start()
     {
@@ -35,6 +38,7 @@ public class MoveData : MonoBehaviour
 
     public void IsPossibleMove(int num)
     {
+        MassNumber = num;
         int NowMyPosx = 0;
         int NowMyPosz = 0;
         int CopyMyPositionX = MyPositionX;
@@ -54,9 +58,8 @@ public class MoveData : MonoBehaviour
         }
         //自分のいるポジションからMoveDataの自分のポジションとの差分を計算
         DifferencCalculation(NowMyPosx, NowMyPosz);
-
-
     }
+
 
     public void DifferencCalculation(int nowposx, int nowposz)
     {
@@ -79,10 +82,12 @@ public class MoveData : MonoBehaviour
         {
             DifferenceX = nowposz - MyPositionZ;
         }
+        DifferenceXCopy = DifferenceX;
+        DifferenceZCopy = DifferenceZ;
     }
 
     /// <summary>
-    /// 移動範囲の指定及び生成
+    /// 移動範囲の表示及び生成
     /// </summary>
     public void InstanceIsPossibleMoveArea()
     {
@@ -90,6 +95,12 @@ public class MoveData : MonoBehaviour
         {
             for(int length = 0;length <= 10;length++)
             {
+               int AbsPositionX = Mathf.Abs(MyPositionX - side);
+                int AbsPositionZ = Mathf.Abs(MyPositionZ - length);
+                if (ReadMoveData[AbsPositionX,AbsPositionZ] == 1 && Master.GetComponent<BoardMaster>().GetMassStatus(MassNumber))
+                {
+
+                }
             }
         }
     }
