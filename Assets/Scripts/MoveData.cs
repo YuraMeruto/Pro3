@@ -114,20 +114,19 @@ public class MoveData : MonoBehaviour
         for (int length = 0; length < 10; length++)
         {
             for (int side = 0; side < 10; side++)
-            {
-              //  int AbsPositionX = Mathf.Abs(MyPositionX - side);
-              //  int AbsPositionZ = Mathf.Abs(MyPositionZ - length);
-              //Debug.Log(AbsPositionX);
+            {            
                 bool retif = true;
                 retif = CutCaliculation(length,side);
-                if (retif)
+                if (retif)//読みこんだデータの配列の値外でなければ
                 {
                     if (ReadMoveData[ResultCalucationZ, ResultCalucationX] == 1)
                     {
                         bool ret = true;
                         ret = Master.GetComponent<BoardMaster>().GetMassStatus(length, side);
-                        if (ret)
+                        if (ret)//移動できるマスであれば
                         {
+                            Debug.Log("Z"+ResultCalucationZ);
+                            Debug.Log("X"+ResultCalucationX);
                             Vector3 InstancePos = Master.GetComponent<BoardMaster>().MassObj[length, side].transform.position;
                             InstancePos.y = 1.0f;
                             Instantiate(MoveAreaObj, InstancePos, Quaternion.identity);
@@ -144,7 +143,7 @@ public class MoveData : MonoBehaviour
 
         AbsPositionX = Mathf.Abs(MyPositionX - Massside);
         AbsPositionZ = Mathf.Abs(MyPositionZ - Masslength);
-        if(MyPositionZ<=Masslength)
+        if(MyPositionZ　<=　Masslength)
         {
             ResultCalucationZ = MyPositionZ + AbsPositionZ;
         }
@@ -157,10 +156,12 @@ public class MoveData : MonoBehaviour
         {
             ResultCalucationX = MyPositionX + AbsPositionX;
         }
+
         else
         {
             ResultCalucationX = MyPositionX - AbsPositionX;
         }
+
         if (ResultCalucationZ<=0 || ResultCalucationX <= 0)
         {
             ret = false;
