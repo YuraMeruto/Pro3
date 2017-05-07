@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
                         }
                         break;
                 }
+                
                 //Debug.Log(AtachMassObjct);
                 //Debug.Log(AtachMassNumber);
                 //Debug.Log(AtachCharObjct);

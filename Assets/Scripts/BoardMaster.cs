@@ -49,7 +49,8 @@ public class BoardMaster : MonoBehaviour
                 MassObj[length, side] = Mass;
                 MassNum[length, side] = count;
                 MassStatus[length, side] = Status.None;
-                if (length == 2)//ポーンの初期の生成場所
+              //  if (length == 2)//ポーンの初期の生成場所
+              if(length == 1 && side ==1)
                 {
                     Vector3 CharacterInstancePos = InstancePos;
                     CharacterInstancePos.y = 1;
@@ -142,7 +143,6 @@ public class BoardMaster : MonoBehaviour
     public GameObject GetCharObject(int charlength, int charside)
     {
         GameObject Obj = null;
-        Debug.Log(CharObj[charlength, charside]);
         Obj = CharObj[charlength, charside];
         return Obj;
     }
@@ -163,5 +163,15 @@ public class BoardMaster : MonoBehaviour
             }
         }
         return ret;
+    }
+
+    public int GetMaxLength()
+    {
+        return MaxLength;
+    }
+
+    public int GetMaxSide()
+    {
+        return MaxSide;
     }
 }
