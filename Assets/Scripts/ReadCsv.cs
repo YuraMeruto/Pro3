@@ -26,6 +26,7 @@ public class ReadCsv : MonoBehaviour
             {
                 IntData[countz, countx] = int.Parse(col);                
                 countx++;
+                /*
                 if (countx > 4)
                 {  
                     copyz = countz;
@@ -33,7 +34,12 @@ public class ReadCsv : MonoBehaviour
                     countx = 0;
                     countz++;
                 }
+                */
             }
+            copyz = countz;
+            copyx = countx;
+            countx = 0;
+            countz++;
         }
      
         MaxSideSize = copyx-1;

@@ -7,12 +7,14 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     LayerMask MassLayer;
-    private GameObject AtachMassObjct;
-    private GameObject AtachCharObjct = null;
+    private GameObject AtachMassObject;
+    private GameObject CopyAtachMassObject;
+    private GameObject AtachCharObject = null;
     private int AtachMassNumber;
     private GameObject MasterObject;
-    private enum Status { None, Choose };
-    private Status status = Status.None;
+    private enum PlayerStatus { None, Choose };
+    public enum Status { None, OK, NG, IsMoveArea };
+    private PlayerStatus status = PlayerStatus.None;
     // Use this for initialization
     void Start()
     {
@@ -30,14 +32,24 @@ public class Player : MonoBehaviour
             {
                 switch (status)
                 {
-                    case Status.None:
-                        AtachMassObjct = hit.collider.gameObject;
-                        AtachMassNumber = AtachMassObjct.GetComponent<NumberMass>().GetNumber();
-                        AtachCharObjct = MasterObject.GetComponent<BoardMaster>().GetCharObject(AtachMassNumber);                    
-                        if (AtachCharObjct != null)
+                    case PlayerStatus.None:
+                        AtachMassObject = hit.collider.gameObject;
+                        CopyAtachMassObject = AtachMassObject;
+                        AtachMassNumber = AtachMassObject.GetComponent<NumberMass>().GetNumber();
+                        AtachCharObject = MasterObject.GetComponent<BoardMaster>().GetCharObject(AtachMassNumber);                    
+                        if (AtachCharObject != null)
                         {
-                            AtachCharObjct.GetComponent<MoveData>().IsPossibleMove(AtachMassNumber);
-                            status = Status.Choose;
+                            AtachCharObject.GetComponent<MoveData>().IsPossibleMove(AtachMassNumber);
+                            status = PlayerStatus.Choose;
+                        }
+                        break;
+
+                    case PlayerStatus.Choose:
+                         Status ret;
+                        ret = MasterObject.GetComponent<BoardMaster>().GetMassStatus(AtachMassNumber);
+                        if (ret == MasterObject.GetComponent<BoardMaster>().St )
+                        {
+
                         }
                         break;
                 }

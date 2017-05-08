@@ -31,6 +31,7 @@ public class MoveData : MonoBehaviour
     private int AbsPositionZ;
     private int ResultCalucationX;
     private int ResultCalucationZ;
+    private List<int> IsPossibleAreaNumber = new List<int>();
     // Use this for initialization
     void Start()
     {
@@ -122,13 +123,15 @@ public class MoveData : MonoBehaviour
                         bool ret = true;
                         int DifferencX = NowMyPosx - CSVMyPositionX;//自分のポジションとCSVのデータのポジションの差分
                         int DifferencZ = NowMyPosz - CSVMyPositionZ;
-                        ret = Master.GetComponent<BoardMaster>().GetMassStatus(NowMyPosz + KariZ, NowMyPosx + KariX);
+                        ret = Master.GetComponent<BoardMaster>().GetMassStatusNone(NowMyPosz + KariZ, NowMyPosx + KariX);
                         if (ret)//移動できるマスであれば
                         {
                             Vector3 InstancePos = Master.GetComponent<BoardMaster>().MassObj[NowMyPosz + KariZ, NowMyPosx + KariX].transform.position;
                             //Vector3 InstancePos = Master.GetComponent<BoardMaster>().MassObj[NowMyPosz, NowMyPosx].transform.position;
                             InstancePos.y = 1.0f;
                             Instantiate(MoveAreaObj, InstancePos, Quaternion.identity);
+                            IsPossibleAreaNumber.Add(Master.GetComponent<BoardMaster>().MassNum[NowMyPosz + KariZ, NowMyPosx + KariX]);
+                            
                         }
                     }
                 }
@@ -153,42 +156,4 @@ public class MoveData : MonoBehaviour
         }
         return ret;
     }
-    /*
-    bool CutCaliculation(int Masslength, int Massside)
-    {
-        bool ret = true;
-
-        AbsPositionX = Mathf.Abs(MyPositionX - Massside);
-        AbsPositionZ = Mathf.Abs(MyPositionZ - Masslength);
-        if (MyPositionZ <= Masslength)
-        {
-            ResultCalucationZ = MyPositionZ + AbsPositionZ;
-        }
-        else
-        {
-            ResultCalucationZ = MyPositionZ - AbsPositionZ;
-        }
-
-        if (MyPositionX <= Massside)
-        {
-            ResultCalucationX = MyPositionX + AbsPositionX;
-        }
-
-        else
-        {
-            ResultCalucationX = MyPositionX - AbsPositionX;
-        }
-
-        if (ResultCalucationZ <= 0 || ResultCalucationX <= 0)
-        {
-            ret = false;
-        }
-
-        else if (ResultCalucationZ >= 10 || ResultCalucationX >= 10)
-        {
-            ret = false;
-        }
-        return ret;
-    }
-    */
 }
